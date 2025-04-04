@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/amysplantcare/static/css/main.a25062ee.css",
+    "main.js": "/amysplantcare/static/js/main.941cc717.js",
+    "static/js/156.e35abe09.chunk.js": "/amysplantcare/static/js/156.e35abe09.chunk.js",
+    "static/media/plant-background.png": "/amysplantcare/static/media/plant-background.487eb971107f50e53079.png",
+    "static/media/basil-plant.jpg": "/amysplantcare/static/media/basil-plant.e90c64b0b25d37f2c1cb.jpg",
+    "static/media/spider-plant.jpg": "/amysplantcare/static/media/spider-plant.d4ff9333b9d218c92914.jpg",
+    "static/media/jade-plant.jpg": "/amysplantcare/static/media/jade-plant.c0984415c85967595a97.jpg",
+    "index.html": "/amysplantcare/index.html",
+    "main.a25062ee.css.map": "/amysplantcare/static/css/main.a25062ee.css.map",
+    "main.941cc717.js.map": "/amysplantcare/static/js/main.941cc717.js.map",
+    "156.e35abe09.chunk.js.map": "/amysplantcare/static/js/156.e35abe09.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a25062ee.css",
+    "static/js/main.941cc717.js"
+  ]
+}
