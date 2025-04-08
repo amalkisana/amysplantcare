@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 export default function EditPage() {
   const params = useParams();
-  const slug = params?.slug as string || "";
+  const slug = params.slug as string || "";
 
   const [plantmode, plantsetMode] = useState("manual");
   const [plantwaterFrequency, plantsetWaterFrequency] = useState("1");
@@ -18,7 +18,7 @@ export default function EditPage() {
   const [showSaved, setShowSaved] = useState(false);
 
     const brokerUrl = "wss://test.mosquitto.org:8081/mqtt";
-  const plantwaterTopic = `plant/${slug.toLowerCase()}/water`;
+  const plantwaterTopic = `plantc28fa/${slug.toLowerCase()}/water`;
 
   useEffect(() => {
     const client = mqtt.connect(brokerUrl);
