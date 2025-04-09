@@ -1,3 +1,4 @@
+// Renders editing form forr schedules: inputs and buttons
 interface EditFormProps {
   mode: string;
   setMode: (s: string) => void;
@@ -8,7 +9,6 @@ interface EditFormProps {
   waterSettingsChange: () => void;
   showSaved: boolean;
 }
-
 export function EditForm({
   mode,
   setMode,
@@ -19,7 +19,7 @@ export function EditForm({
   waterSettingsChange,
   showSaved,
 }: EditFormProps) {
-  return (
+  return ( //formatting and defining input options and updating the schedule
     <>
       <div className="flex flex-col">
         <label>Schedule type:</label>
@@ -42,10 +42,10 @@ export function EditForm({
               value={waterFrequency}
               onChange={(e) => setWaterFrequency(e.target.value)}
             >
-              <option value="1">Daily</option>
-              <option value="7">Weekly</option>
-              <option value="14">Bi-Weekly</option>
-              <option value="28">Monthly</option>
+              <option value="0">Daily</option>
+              <option value="1">Weekly</option>
+              <option value="2">Bi-Weekly</option>
+              <option value="3">Monthly</option>
             </select>
           </div>
 
