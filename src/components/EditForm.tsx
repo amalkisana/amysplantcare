@@ -43,9 +43,9 @@ export function EditForm({
               onChange={(e) => setWaterFrequency(e.target.value)}
             >
               <option value="0">Daily</option>
-              <option value="1">Semi-Weekly</option>
+              <option value="1">Semiweekly</option>
               <option value="2">Weekly</option>
-              <option value="3">Bi-Weekly</option>
+              <option value="3">Biweekly</option>
               <option value="4">Monthly</option>
             </select>
           </div>
