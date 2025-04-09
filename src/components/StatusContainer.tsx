@@ -1,42 +1,51 @@
-"use client";
-
+// Import MQTT library
 import mqtt from "mqtt";
 import { useEffect, useState } from "react";
 import StatusTile from "./StatusTile";
 
+// Handles MQTT data and shows sensor tiles.
 export default function StatusContainer() {
-  console.log("test");
+
+  // Defines MQTT broker URL
   const brokerUrl = "wss://test.mosquitto.org:8081/mqtt";
 
-  console.log("test2");
-  const TEMP_TOPIC = "plant/temp";
-  const WATERLEVEL_TOPIC = "plant/waterlevel";
+  // Defines topics
+  const TEMP_TOPIC = "plantc28fa/temp";
+  const WATERLEVEL_TOPIC = "plantc28fa/waterlevel";
 
+  // Makes state variables
   const [temperature, setTemperature] = useState<number | undefined>(undefined);
   const [waterLevel, setWaterLevel] = useState<number | undefined>(undefined);
 
+  // UseEffect hook to run MQTT logic while showing data
   useEffect(() => {
+    // Connect to broker
     const client = mqtt.connect(brokerUrl);
 
     client.on("connect", () => {
-      console.log("Connected to MQTT broker on HomePage");
+      console.log("Connected to MQTT broker on HomePage"); //take out after testing
+      // Subscribe to topics
       client.subscribe(TEMP_TOPIC);
       client.subscribe(WATERLEVEL_TOPIC);
     });
 
+    // Get messages from the broker
     client.on("message", (topic, messageBuffer) => {
       const message = messageBuffer.toString();
+      console.log(`Received on ${topic}: ${message}`);
+      
       if (topic === TEMP_TOPIC) {
         setTemperature(parseInt(message, 10));
       } else if (topic === WATERLEVEL_TOPIC) {
         setWaterLevel(parseInt(message, 10));
       }
     });
-
     return () => {
       client.end();
     };
-  }, []);
+  }, []); 
+
+  // Display sensor tiles
   return (
     <div className="flex justify-center gap-8 mt-8">
       <StatusTile
@@ -45,8 +54,12 @@ export default function StatusContainer() {
       />
       <StatusTile
         name="Water Level"
-        value={waterLevel ? `${waterLevel}%`: "Loading..."}
+        value={waterLevel ? `${waterLevel}%` : "Loading..."}
       />
     </div>
   );
 }
+
+
+
+

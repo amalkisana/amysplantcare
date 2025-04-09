@@ -1,5 +1,6 @@
 "use client";
-
+// PLant schedule page
+// Imports plant schedule page components
 import AppContainer from "@/components/AppContainer";
 import BackButton from "@/components/BackButton";
 import { EditContainer } from "@/components/EditContainer";
@@ -8,30 +9,34 @@ import mqtt from "mqtt";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+
 export default function EditPage() {
   const params = useParams();
+  // Get the slug from the URL to identify the plant
   const slug = params.slug as string || "";
 
+  // Set the default values for the plant schedule
   const [plantmode, plantsetMode] = useState("manual");
   const [plantwaterFrequency, plantsetWaterFrequency] = useState("1");
   const [plantwaterAmount, plantsetWaterAmount] = useState("50");
   const [showSaved, setShowSaved] = useState(false);
 
+  // Define the MQTT broker URL and topic
     const brokerUrl = "wss://test.mosquitto.org:8081/mqtt";
   const plantwaterTopic = `plantc28fa/${slug.toLowerCase()}/water`;
 
+  // Connect to the MQTT broker and subscribe to the topic
   useEffect(() => {
     const client = mqtt.connect(brokerUrl);
 
     client.on("connect", () => {
       console.log("Successfully connected to broker");
 
-      // Subscribe to the plant water topic
-      // If the message is retained, we get it immediately
+      // Subscribe to topic
       client.subscribe(plantwaterTopic);
     });
 
-    // When messages arrive, parse them to update the schedule
+    // Parse message to update the schedule
     client.on("message", (topic, payload) => {
       if (topic === plantwaterTopic) {
         const msgString = payload.toString(); 
@@ -53,12 +58,12 @@ export default function EditPage() {
       }
     });
 
-    // Cleanup on unmount
     return () => {
       client.end();
     };
   }, []);
 
+  // Publish new schedule to MQTT broker when user presses save
   const plantwaterSettingsChange = () => {
     const plantclient = mqtt.connect(brokerUrl);
     let plantmessage;
@@ -67,11 +72,10 @@ export default function EditPage() {
       // CSV format: "manual,amount,frequency"
       plantmessage = `${plantmode},${plantwaterAmount},${plantwaterFrequency}`;
     } else {
-      // e.g. "preset,0,0"
       plantmessage = `${plantmode},0,0`;
     }
 
-    // Publish with retain=true so the broker stores the last known schedule
+    // Publish message with retain flag
     plantclient.publish(plantwaterTopic, plantmessage, {
       qos: 0,
       retain: true,
@@ -85,6 +89,7 @@ export default function EditPage() {
     }, 10000);
   };
 
+/// Show the plant schedule page with the edit form
   return (
     <AppContainer>
       <BackButton />
