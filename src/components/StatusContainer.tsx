@@ -1,3 +1,4 @@
+"use client";
 // Import MQTT library
 import mqtt from "mqtt";
 import { useEffect, useState } from "react";
@@ -5,7 +6,6 @@ import StatusTile from "./StatusTile";
 
 // Handles MQTT data and shows sensor tiles.
 export default function StatusContainer() {
-
   // Defines MQTT broker URL
   const brokerUrl = "wss://test.mosquitto.org:8081/mqtt";
 
@@ -35,7 +35,7 @@ export default function StatusContainer() {
     client.on("message", (topic, messageBuffer) => {
       const message = messageBuffer.toString();
       console.log(`message `);
-      
+
       if (topic === TEMP_TOPIC) {
         setTemperature(parseInt(message, 10));
       } else if (topic === WATERLEVEL_TOPIC) {
@@ -45,7 +45,7 @@ export default function StatusContainer() {
     return () => {
       client.end();
     };
-  }, []); 
+  }, []);
 
   // Display sensor tiles
   return (
@@ -61,7 +61,3 @@ export default function StatusContainer() {
     </div>
   );
 }
-
-
-
-
