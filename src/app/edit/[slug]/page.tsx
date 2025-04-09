@@ -30,7 +30,6 @@ export default function EditPage() {
     const client = mqtt.connect(brokerUrl);
 
     client.on("connect", () => {
-      console.log("Successfully connected to broker");
 
       // Subscribe to topic
       client.subscribe(plantwaterTopic);
@@ -72,7 +71,16 @@ export default function EditPage() {
       // CSV format: "manual,amount,frequency"
       plantmessage = `${plantmode},${plantwaterAmount},${plantwaterFrequency}`;
     } else {
-      plantmessage = `${plantmode},0,0`;
+      //sends preset frequency
+      const presetFrequency =
+    slug === "Jade"
+    ? "3"
+    : slug === "Basil"
+    ? "1"
+    : slug === "Spider"
+    ? "2"
+    : plantwaterFrequency;
+      plantmessage = `${plantmode},250,${presetFrequency}`;
     }
 
     // Publish message with retain flag
