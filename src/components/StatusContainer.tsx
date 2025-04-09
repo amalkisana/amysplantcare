@@ -20,9 +20,11 @@ export default function StatusContainer() {
   // UseEffect hook to run MQTT logic while showing data
   useEffect(() => {
     // Connect to broker
+    console.log(`useeffect `);
     const client = mqtt.connect(brokerUrl);
 
     client.on("connect", () => {
+      console.log(`connect`);
       console.log("Connected to MQTT broker on HomePage"); //take out after testing
       // Subscribe to topics
       client.subscribe(TEMP_TOPIC);
@@ -32,6 +34,7 @@ export default function StatusContainer() {
     // Get messages from the broker
     client.on("message", (topic, messageBuffer) => {
       const message = messageBuffer.toString();
+      console.log(`message `);
 
       if (topic === TEMP_TOPIC) {
         setTemperature(parseInt(message, 10));
@@ -49,11 +52,11 @@ export default function StatusContainer() {
     <div className="flex justify-center gap-8 mt-8">
       <StatusTile
         name="Temperature"
-        value={temperature ? `${temperature}°C` : "Loading..."}
+        value={temperature !== undefined ? `${temperature}°C` : "Loading..."}
       />
       <StatusTile
         name="Water Level"
-        value={waterLevel ? `${waterLevel}%` : "Loading..."}
+        value={waterLevel !== undefined ? `${waterLevel}%` : "Loading..."}
       />
     </div>
   );
